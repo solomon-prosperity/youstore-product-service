@@ -22,7 +22,6 @@ class ReviewRepository {
             const addReviewToProduct = await this.productModel.findOneAndUpdate({_id: productId }, { $push: { reviews: saveReview._id } },
                 { new: true })
                 return addReviewToProduct
-
         } catch (error) {
             this.logger.error(error);
         }

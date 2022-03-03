@@ -17,7 +17,7 @@ import log from "../../interface/http/utils/logger"
 
     async create (payload: ProductDocument) {
             try {
-                const {name, description, price, color, size, images, sold, quantity, isOutOfStock} = payload
+                const {name, description, price, color, size, images,category, sold, quantity, isOutOfStock} = payload
                 const product = await this.productModel.create(payload);
                 const saveProduct = await product.save()
                 return saveProduct

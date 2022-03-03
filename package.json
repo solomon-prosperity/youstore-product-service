@@ -6,6 +6,7 @@
   "author": "yvprosper <prosper@youverify.co>",
   "license": "MIT",
   "scripts": {
+    "start": "yarn dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon build/src/start.js",
     "build": "tsc"

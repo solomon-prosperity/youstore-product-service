@@ -6,6 +6,7 @@ import restServer from "./interface/http/server"
 import Logger from "./interface/http/utils/logger"
 import productModel from "./infra/database/models/mongoose/product"
 import reviewModel from "./infra/database/models/mongoose/review"
+import categoryModel from "./infra/database/models/mongoose/category"
 import config from "config"
 import CreateProduct from "./usecases/products/createProduct"
 import GetProduct from "./usecases/products/getProduct"
@@ -19,7 +20,13 @@ import GetReviews from "./usecases/reviews/getReviews"
 import UpdateReview from "./usecases/reviews/updateReview"
 import DeleteReview from "./usecases/reviews/deleteReview"
 import ReviewRepository from "./infra/repository/reviewRespository"
-//import Messenger from "./infra/libs/rabbitmq"
+import CreateCategory from "./usecases/categories/createCategory"
+import GetCategory from "./usecases/categories/getCategory"
+import GetCategories from "./usecases/categories/getCategories"
+import UpdateCategory from "./usecases/categories/updateCategory"
+import DeleteCategory from "./usecases/categories/deleteCategory"
+import CategoryRepository from "./infra/repository/categoryRepository"
+import Messenger from "./infra/libs/rabbitmq"
 
 
 const container = createContainer({
@@ -40,6 +47,7 @@ container.register({
     logger: asValue(Logger),
     productModel: asValue(productModel),
     reviewModel: asValue(reviewModel),
+    categoryModel: asValue(categoryModel),
     config: asValue(config),
     createProduct: asClass(CreateProduct),
     getProduct: asClass(GetProduct),
@@ -47,14 +55,19 @@ container.register({
     updateProduct: asClass(UpdateProduct),
     deleteProduct: asClass(DeleteProduct),
     productRepository: asClass(ProductRepository),
-
     createReview: asClass(CreateReview),
     getReview: asClass(GetReview),
     getReviews: asClass(GetReviews),
     updateReview: asClass(UpdateReview),
     deleteReview: asClass(DeleteReview),
     reviewRepository: asClass(ReviewRepository),
-    //messenger: asClass(Messenger)
+    createCategory: asClass(CreateCategory),
+    getCategory: asClass(GetCategory),
+    getCategories: asClass(GetProducts),
+    updateCategory: asClass(UpdateCategory),
+    deleteCategory: asClass(DeleteCategory),
+    categoryRepository: asClass(CategoryRepository),
+    messenger: asClass(Messenger)
     
 
 })

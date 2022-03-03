@@ -1,5 +1,5 @@
-import { query } from "express"
-import { object } from "joi"
+// import { query } from "express"
+// import { object } from "joi"
 // import ProductRepository from "../../infra/repository/productRepository"
 // import log from "../../interface/http/utils/logger"
 
@@ -11,14 +11,14 @@ import { object } from "joi"
 //         this.logger = logger
 //     }
 
-//     async execute(products: {[name: string] : number}) {
+//     async execute(products: any) {
 //         try {
 //             const Prodkeys = Object.keys(products)
 //             Prodkeys.forEach(async (prodkey) => {
-//                 const result = await this.productRepository.find({name: prodkey, quantity: {$gte: products[prodkey]}})
-//             if (!result){
-//                 throw Error
-//             }       
+//                 const result = await this.productRepository.find({_id: prodkey, quantity: {$gte: products[prodkey]}})
+//                 if (!result){
+//                 return false
+//             }
 //             })
 //         } catch (error) {
 //             this.logger.error(error)

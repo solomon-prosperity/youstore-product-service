@@ -8,6 +8,7 @@ import GetProduct from "../../../usecases/products/getProduct";
 import GetProducts from "../../../usecases/products/getProducts";
 import UpdateProduct from "../../../usecases/products/updateProduct";
 //import ProductAvailable from "../../../usecases/products/productavailable";
+//import ProductAvailable from "../../../usecases/products/productavailable";
 
 class ProductController {
     createProduct: CreateProduct
@@ -89,16 +90,16 @@ class ProductController {
         }
     }
 
-    async isProductAvailable(req: Request, res: Response) {
-        // try {
-        //     const { productId } = req.params
-        //     const product = await this.productAvailable.execute(productId)
-        //     if (!product) return res.status(404).json({ success: false, msg: `Product with this ID not found` })
-        //     res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`, data: product })
-        // } catch (error) {
-        //     res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
-        // }
-    }
+    // async isProductAvailable(req: Request, res: Response) {
+    //     try {
+    //         const { productId } = req.body
+    //         const product = await this.productAvailable.execute(productId)
+    //         if (!product) return res.status(404).json({ success: false, msg: `Product with this ID not found` })
+    //         res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`, data: product })
+    //     } catch (error) {
+    //         res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+    //     }
+    // }
 
 }
 

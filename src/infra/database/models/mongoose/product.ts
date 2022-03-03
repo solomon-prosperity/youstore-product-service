@@ -11,6 +11,7 @@ export interface Product {
   reviews: object;
   quantity:number;
   sold:number;
+  category: string;
   isOutOfStock: Boolean
   
 }
@@ -24,6 +25,11 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: true
+    },
+    category: {
+      type: String,
+      ref: "Category",
       required: true
     },
     description: {
