@@ -1,4 +1,4 @@
-// import channelWrapper from "../../consumer";
+import channelWrapper from "../../consumer";
 class Application {
     restServer: any;
     database: any;
@@ -21,9 +21,9 @@ class Application {
 
           }
         
-        // channelWrapper.waitForConnect().then(() => {
-        //     console.log('listening for messages')
-        // })
+        channelWrapper.waitForConnect().then(() => {
+            console.log('listening for messages')
+        })
 
         await this.restServer.start();
     }

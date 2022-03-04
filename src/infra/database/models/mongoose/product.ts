@@ -7,11 +7,11 @@ export interface Product {
   price: number;
   color: string;
   size: string;
+  category: string;
   images: string;
   reviews: object;
   quantity:number;
   sold:number;
-  category: string;
   isOutOfStock: Boolean
   
 }
@@ -27,17 +27,16 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true
     },
-    category: {
-      type: String,
-      ref: "Category",
-      required: true
-    },
     description: {
       type: String,
       required: true
     },
     images: {
       type: String,
+    },
+    category: {
+      type: String,
+      required: true
     },
     quantity: {
       type: Number,
@@ -57,10 +56,6 @@ const productSchema = new mongoose.Schema(
     },
     color: {
       type: String,
-      required: true
-    },
-    quatity: {
-      type: Number,
       required: true
     },
     size: {

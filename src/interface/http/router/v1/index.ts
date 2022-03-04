@@ -13,7 +13,7 @@ const router = express.Router();
 
 
 router.use("/products" , productRoutes)
-router.use("/product/" , reviewRoutes)
+router.use("/product" , reviewRoutes)
 router.use("/product/category", categoryRoutes)
 // mount routes
 //router.use("/dummy", dummyRouter);

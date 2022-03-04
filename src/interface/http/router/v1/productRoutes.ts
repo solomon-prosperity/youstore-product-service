@@ -1,23 +1,22 @@
- import express from "express";
- import { makeInvoker } from "awilix-express";
- import ProductController from "../../controllers/productController"
+import express from "express";
+import { makeInvoker } from "awilix-express";
+import ProductController from "../../controllers/productController"
 
- const api = makeInvoker(ProductController);
- const router = express.Router();
+const api = makeInvoker(ProductController);
+const router = express.Router();
+
+router
+     .route("/")
+     .post(api('create'))
+     .get(api('getAll'))
+
 
  router
-      .route("/")
-      .post(api('create'))
-      .get(api('getAll'))
+     .route("/:productId")
+     .get(api('get'))
+     .put(api('update'))
+     .delete(api('delete'))
 
+ router.post('/available', api('isProductAvailable'))
 
-  router
-      .route("/:productId")
-      .get(api('get'))
-      .put(api('update'))
-      .delete(api('delete'))
-
-  //router.get('/available', api('productAvailable'))
-
-  export default router;
-
+ export default router;
