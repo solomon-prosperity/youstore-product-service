@@ -19,10 +19,10 @@ class ProductAvailable{
             let isAvailable;
             let availableProducts: any= []
             let unavailableProducts: any= []
-            const totalProducts = payload.order[0].products.length
+            const totalProducts = payload.order.products.length
             for(var i = 0; i < totalProducts; i++){
-                let productId = payload.order[0].products[i].id
-                let orderQty = payload.order[0].products[i].quantity
+                let productId = payload.order.products[i].id
+                let orderQty = payload.order.products[i].quantity
             
                     const products = await this.productModel.find({_id : productId})
                     products.forEach(async (product: any) => {

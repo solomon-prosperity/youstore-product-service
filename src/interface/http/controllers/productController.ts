@@ -7,6 +7,8 @@ import DeleteProduct from "../../../usecases/products/deleteProduct";
 import GetProduct from "../../../usecases/products/getProduct";
 import GetProducts from "../../../usecases/products/getProducts";
 import UpdateProduct from "../../../usecases/products/updateProduct";
+import UploadPhoto from "../../../usecases/products/uploadPhoto";
+
 //import ProductAvailable from "../../../usecases/products/productavailable";
 
 class ProductController {
@@ -15,15 +17,17 @@ class ProductController {
     getProducts: GetProducts
     deleteProduct: DeleteProduct
     updateProduct: UpdateProduct
+    uploadPhoto: UploadPhoto
     productAvailable: any
     ProductRepository: ProductRepository
-    constructor({createProduct, productRepository, getProduct , getProducts, updateProduct, deleteProduct,productAvailable}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
-        getProducts: GetProducts, productRepository: ProductRepository,productAvailable: any}) {
+    constructor({createProduct, productRepository, getProduct , getProducts, uploadPhoto, updateProduct, deleteProduct,productAvailable}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
+        getProducts: GetProducts, uploadPhoto: UploadPhoto, productRepository: ProductRepository,productAvailable: any}) {
         this.createProduct = createProduct
         this.getProduct = getProduct
         this.getProducts = getProducts
         this.updateProduct = updateProduct
         this.deleteProduct = deleteProduct
+        this.uploadPhoto = uploadPhoto
         this.productAvailable = productAvailable
         this.ProductRepository = productRepository
 
@@ -32,8 +36,10 @@ class ProductController {
 
     async create(req: Request, res: Response) {
         try {
+               const merchantId = req.user._id
             const payload = req.body
-            const product = await this.createProduct.execute(payload)
+            const product = await this.createProduct.execute(payload, merchantId)
+
             res.status(HTTP_STATUS.CREATED).json({ success: true, msg: `Product successfully created`, data: product })
         } catch (error) {
             if (error instanceof Error) {
@@ -51,7 +57,11 @@ class ProductController {
             if (!product) return res.status(400).json({ success: false, msg: `Product with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully retrieved`, data: product })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
         }
     }
 
@@ -62,7 +72,11 @@ class ProductController {
             const products = await this.getProducts.execute(payload)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Products successfully retrieved`, data: products })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
         }
     }
 
@@ -75,19 +89,27 @@ class ProductController {
             if (!product) return res.status(400).json({ success: false, msg: `Product with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully updated`, data: product })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
         }
     }
 
 
     async delete(req: Request, res: Response) {
         try {
+            const merchantId = req.user._id
             const { productId } = req.params
-            const product = await this.deleteProduct.execute(productId)
-            if (!product) return res.status(404).json({ success: false, msg: `Product with this ID not found` })
-            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`, data: product })
+            await this.deleteProduct.execute(productId, merchantId)
+    
+            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`})
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
         }
     }
 
@@ -97,7 +119,26 @@ class ProductController {
             const {availableProducts,unavailableProducts } = await this.productAvailable.execute(payload)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Below is your product information `, availableProducts: availableProducts, outOfStock: unavailableProducts })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
+        }
+    }
+
+    async upload(req: Request , res: Response) {
+        try {
+            const productId = req.user._id
+            const payload = req.file
+            const product = await this.uploadPhoto.execute(payload, productId)
+            res.status(200).json({success: true , msg:`Photo successfully uploaded`, data:  product})
+        }catch (error){
+            if (error instanceof Error ) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({success: false , msg:`${error.message}`})
+                throw new Error(`${error.message}`)
+            } 
+            throw error
         }
     }
 

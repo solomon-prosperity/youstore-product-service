@@ -30,8 +30,11 @@ class ReviewController {
         try {
             const payload = req.body
             const productId = req.params.productId
+            const fullName = req.user.firstName + ' ' + req.user.lastName
+            const customerName = fullName
+            const customerAvatar = req.user.avatar
         
-            const review = await this.createReview.execute(productId, payload)
+            const review = await this.createReview.execute(productId, payload, customerName, customerAvatar)
             res.status(HTTP_STATUS.CREATED).json({ success: true, msg: `Review successfully created`, data: review })
         } catch (error) {
             if (error instanceof Error) {
@@ -48,7 +51,10 @@ class ReviewController {
             if (!review) return res.status(400).json({ success: false, msg: `Review with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Review details successfully retrieved`, data: review })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
         }
     }
 
@@ -59,7 +65,10 @@ class ReviewController {
             const reviews = await this.getReviews.execute(payload)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Reviews successfully retrieved`, data: reviews })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
         }
     }
 
@@ -72,7 +81,10 @@ class ReviewController {
             if (!review) return res.status(400).json({ success: false, msg: `Review with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Review details successfully updated`, data: review })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
         }
     }
 
@@ -84,7 +96,10 @@ class ReviewController {
             if (!Review) return res.status(404).json({ success: false, msg: `Review with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Review details successfully deleted`, data: Review })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
         }
     }
 

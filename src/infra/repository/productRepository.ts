@@ -4,6 +4,7 @@ import NotFoundError from "../../interface/http/errors/notFound"
 import ProductModel from "../database/models/mongoose/product"
 import { ProductDocument } from "../database/models/mongoose/product"
 import log from "../../interface/http/utils/logger"
+import mongoose from "mongoose"
 
 
 //import CustomerInput from "../infra/database/models/mongoose/customerModel"
@@ -15,21 +16,21 @@ import log from "../../interface/http/utils/logger"
         this.logger = logger
     }
 
-    async create (payload: ProductDocument) {
+    async create (payload: ProductDocument, merchantId:mongoose.Schema.Types.ObjectId) {
             try {
-                const {name, description, price, color, size, images,category, sold, quantity, isOutOfStock} = payload
                 const product = await this.productModel.create(payload);
+                product.merchantId = merchantId
                 const saveProduct = await product.save()
                 return saveProduct
             } catch (error) {
-                this.logger.error(error);
+                throw error
             }
     }
 
     async get (productId: String) {
             try {
                 const product = await this.productModel.findById(productId)
-                .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+                .populate({path: "reviews" , select: ['customerName' ,'customerAvatar','comment', 'rating', 'createdAt', 'updatedAt']});
                 if(!product) {
                     throw new NotFoundError('Product with this ID does not exist' , 404, `error`)
                 }
@@ -45,6 +46,7 @@ import log from "../../interface/http/utils/logger"
         try {
             
             const products = await this.productModel.find(payload)
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             return products
         } catch (error) {
             this.logger.error(error);
@@ -65,24 +67,19 @@ import log from "../../interface/http/utils/logger"
     }
 
 
-    async delete (productId: string) {
+    async delete (productId: string, merchantId: mongoose.Schema.Types.ObjectId) {
             try {
-                const product = await this.productModel.findByIdAndDelete(productId)
-                return product
+                const product = await this.productModel.findById(productId)
+                if (product?.merchantId != merchantId) throw new Error (`Cannot delete another merchant's product`)
+                const deleteProduct = await this.productModel.findByIdAndDelete(productId)
+                return deleteProduct
             } catch (error) {
-                this.logger.error(error);
+                throw error
                 
             }
     }
 
-//     async find (query: object){
-//         try {
-//             const product = await this.productModel.find(query)
-//             return product
-//         } catch (error) {
-//             this.logger.error(error);
-//         }
-// }
+
 }
 
 export default ProductRepository

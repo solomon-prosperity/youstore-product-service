@@ -14,11 +14,11 @@ class CreateReview {
         this.reviewModel = reviewModel
     }
 
-    async execute(productId: any,payload: ReviewDocument) {
+    async execute(productId: any,payload: ReviewDocument, customerAvatar: string, customerName: string) {
         try {
             const { error } = createReviewSchema(payload)
             if (error) throw new Error(` ${error.details[0].message}`)
-            const review = await this.reviewRepository.create(productId,payload)
+            const review = await this.reviewRepository.create(productId,payload, customerName, customerAvatar)
             return review
         } catch (error) {
             throw error

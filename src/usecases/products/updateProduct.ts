@@ -16,7 +16,7 @@ class UpdateProduct{
             const product = await this.productRepository.update(productId, payload)
             return product
         } catch (error) {
-            this.logger.error(error)
+            throw error
         }
     }
 }

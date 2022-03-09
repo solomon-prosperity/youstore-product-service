@@ -12,7 +12,8 @@ export interface Product {
   reviews: object;
   quantity:number;
   sold:number;
-  isOutOfStock: Boolean
+  isOutOfStock: Boolean;
+  merchantId: mongoose.Schema.Types.ObjectId
   
 }
 
@@ -57,6 +58,9 @@ const productSchema = new mongoose.Schema(
     color: {
       type: String,
       required: true
+    },
+    merchantId: {
+      type: mongoose.Schema.Types.ObjectId
     },
     size: {
       type: String,

@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 export interface Review {
   comment: string;
   rating: number;
-  customer_avatar: string;
-  customer_name: string;
+  customerAvatar: string;
+  customerName: string;
 
 }
 
@@ -20,10 +20,10 @@ const reviewSchema = new mongoose.Schema(
         type: String,
         required: [true, 'Review cannot be empty!']
     },
-    customer_avatar: {
+    customerAvatar: {
         type: String
     },
-    customer_name: {
+    customerName: {
         type: String,
     },
     rating: {

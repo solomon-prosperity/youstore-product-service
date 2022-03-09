@@ -16,7 +16,7 @@ class GetReview{
             const review = await this.reviewRepository.get(reviewId)
             return review
         } catch (error) {
-            this.logger.error(error)
+            throw error
         }
     }
 }

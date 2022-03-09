@@ -6,6 +6,7 @@ import restServer from "./interface/http/server"
 import Logger from "./interface/http/utils/logger"
 import productModel from "./infra/database/models/mongoose/product"
 import reviewModel from "./infra/database/models/mongoose/review"
+import WishlistModel from "./infra/database/models/mongoose/wishlist"
 import config from "config"
 import CreateProduct from "./usecases/products/createProduct"
 import GetProduct from "./usecases/products/getProduct"
@@ -20,6 +21,12 @@ import GetReviews from "./usecases/reviews/getReviews"
 import UpdateReview from "./usecases/reviews/updateReview"
 import DeleteReview from "./usecases/reviews/deleteReview"
 import ReviewRepository from "./infra/repository/reviewRespository"
+import CreateWishlist from "./usecases/wishlist/createWishlist"
+import GetWishlist from "./usecases/wishlist/getWishlist"
+import UpdateWishlist from "./usecases/wishlist/updateWishlist"
+import DeleteWishlist from "./usecases/wishlist/deleteWishlist"
+import WishlistRepository from "./infra/repository/wishlistRepository"
+import UploadPhoto from "./usecases/products/uploadPhoto"
 //import Messenger from "./infra/libs/rabbitmq"
 
 
@@ -41,6 +48,7 @@ container.register({
     logger: asValue(Logger),
     productModel: asValue(productModel),
     reviewModel: asValue(reviewModel),
+    wishlistModel: asValue(WishlistModel),
     config: asValue(config),
     createProduct: asClass(CreateProduct),
     getProduct: asClass(GetProduct),
@@ -49,13 +57,18 @@ container.register({
     deleteProduct: asClass(DeleteProduct),
     productAvailable: asClass(ProductAvailable),
     productRepository: asClass(ProductRepository),
-
     createReview: asClass(CreateReview),
     getReview: asClass(GetReview),
     getReviews: asClass(GetReviews),
     updateReview: asClass(UpdateReview),
     deleteReview: asClass(DeleteReview),
     reviewRepository: asClass(ReviewRepository),
+    wishlistRepository: asClass(WishlistRepository),
+    createWishlist: asClass(CreateWishlist),
+    getWishlist: asClass(GetWishlist),
+    updateWishlist: asClass(UpdateWishlist),
+    deleteWishlist: asClass(DeleteWishlist),
+    uploadPhoto: asClass(UploadPhoto)
     //messenger: asClass(Messenger)
     
 

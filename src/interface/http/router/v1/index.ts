@@ -7,14 +7,14 @@ import express from "express";
 
 import productRoutes from "./productRoutes"
 import reviewRoutes from "./reviewRoutes"
-import categoryRoutes from "./categoryRoutes"
+import wishlistRoutes from "./wishlistRoutes"
 
 const router = express.Router();
 
 
 router.use("/products" , productRoutes)
 router.use("/product" , reviewRoutes)
-router.use("/product/category", categoryRoutes)
+router.use("/product/wishlist", wishlistRoutes)
 // mount routes
 //router.use("/dummy", dummyRouter);
 

@@ -14,14 +14,16 @@ class ReviewRepository {
         this.logger = logger
     }
 
-    async create(productId: any, payload: ReviewDocument) {
+    async create(productId: any, payload: ReviewDocument, customerAvatar: string, customerName:string) {
         try {
-            const { comment, rating, customer_avatar, customer_name } = payload
-            const Review = await this.reviewModel.create(payload);
-            const saveReview = await Review.save()
+            
+            const review = await this.reviewModel.create(payload);
+            review.customerName = customerName
+            review.customerAvatar = customerAvatar
+            const saveReview = await review.save()
             const addReviewToProduct = await this.productModel.findOneAndUpdate({_id: productId }, { $push: { reviews: saveReview._id } },
                 { new: true })
-                return addReviewToProduct
+                return saveReview
         } catch (error) {
             this.logger.error(error);
         }

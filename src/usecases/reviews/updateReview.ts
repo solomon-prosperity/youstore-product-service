@@ -16,7 +16,8 @@ class UpdateReview{
             const review = await this.reviewRepository.update(reviewId, payload)
             return review
         } catch (error) {
-            this.logger.error(error)
+            throw console.error;
+            
         }
     }
 }

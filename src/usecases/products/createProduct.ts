@@ -4,6 +4,7 @@ import ProductModel from "../../infra/database/models/mongoose/product"
 import ProductRepository from "../../infra/repository/productRepository"
 import log from "../../interface/http/utils/logger"
 import { ProductDocument } from "../../infra/database/models/mongoose/product"
+import mongoose from "mongoose"
 
  class CreateProduct{
     productRepository: ProductRepository
@@ -15,11 +16,11 @@ import { ProductDocument } from "../../infra/database/models/mongoose/product"
         this.productModel = productModel
     }
 
-     async execute(payload: ProductDocument) {
+     async execute(payload: ProductDocument, merchantId: mongoose.Schema.Types.ObjectId) {
          try {
              const { error } = createProductSchema(payload)
              if (error) throw new Error(` ${error.details[0].message}`)
-             const product = await this.productRepository.create(payload)
+             const product = await this.productRepository.create(payload, merchantId)
              return product
          } catch (error) {
              throw error

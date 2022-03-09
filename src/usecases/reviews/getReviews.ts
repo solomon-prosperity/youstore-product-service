@@ -1,3 +1,5 @@
+import { response } from "express"
+import { request } from "http"
 import ReviewRepository from "../../infra/repository/reviewRespository"
 import log from "../../interface/http/utils/logger"
 
@@ -14,9 +16,11 @@ class GetReviews{
            const reviews =  await this.reviewRepository.getAll(payload)
            return reviews
         } catch (error) {
-            this.logger.error(error)
+            throw error
         }
     }
 }
 
 export default GetReviews
+
+

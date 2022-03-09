@@ -16,7 +16,7 @@ class GetProduct{
             const product = await this.productRepository.get(customerId)
             return product
         } catch (error) {
-            this.logger.error(error)
+            throw error
         }
     }
 }

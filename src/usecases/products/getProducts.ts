@@ -14,7 +14,7 @@ class GetProducts{
            const Products =  await this.productRepository.getAll(payload)
            return Products
         } catch (error) {
-            this.logger.error(error)
+            throw error
         }
     }
 }
