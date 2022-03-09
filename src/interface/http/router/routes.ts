@@ -1,6 +1,7 @@
 import express from "express";
 import routerV1 from "./v1"
 import { Request, Response } from "express";
+import cors from 'cors'
 //import {scopePerRequest} from "awilix-express"
 //import container from "../../../container" 
 
@@ -20,7 +21,7 @@ export default ({containerMiddleware}: any) => {
           });
     })
 
-    apiRouter.use('/v1', routerV1)
+    apiRouter.use('/v1', cors(), routerV1)
 
     return apiRouter
 }
