@@ -5,6 +5,7 @@ import ProductModel from "../database/models/mongoose/product"
 import { ProductDocument } from "../database/models/mongoose/product"
 import log from "../../interface/http/utils/logger"
 import mongoose from "mongoose"
+import { join } from "path/posix"
 
 
 //import CustomerInput from "../infra/database/models/mongoose/customerModel"
@@ -36,7 +37,7 @@ import mongoose from "mongoose"
                 }
                 return product
             } catch (error) {
-                this.logger.error(error);
+                throw error;
                 
             }
     }
@@ -49,7 +50,18 @@ import mongoose from "mongoose"
             .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             return products
         } catch (error) {
-            this.logger.error(error);
+            throw error;
+            
+        }
+    }
+    async getMerchantProduct (payload: Object, merchantId:string) {
+        try {
+            
+            const products = await this.productModel.find(payload, merchantId)
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            return products
+        } catch (error) {
+            throw error;
             
         }
     }
@@ -62,8 +74,21 @@ import mongoose from "mongoose"
             } )
             return product
         } catch (error) {
-            this.logger.error(error);
+            throw error
         }
+    }
+    async getCategory ( category: any ){
+        try{
+            const product = await this.productModel.find({category:category})
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            if(!product) {
+                throw new NotFoundError('Product with this ID does not exist' , 404, `error`)}
+            return product
+        }catch(error){
+            throw error
+
+        }
+
     }
 
 

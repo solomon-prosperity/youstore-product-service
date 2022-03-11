@@ -8,6 +8,8 @@ import GetProduct from "../../../usecases/products/getProduct";
 import GetProducts from "../../../usecases/products/getProducts";
 import UpdateProduct from "../../../usecases/products/updateProduct";
 import UploadPhoto from "../../../usecases/products/uploadPhoto";
+import GetMerchantProducts from "../../../usecases/products/getMerchantProduct";
+import GetCategory from "../../../usecases/products/getCategory";
 
 //import ProductAvailable from "../../../usecases/products/productavailable";
 
@@ -19,9 +21,11 @@ class ProductController {
     updateProduct: UpdateProduct
     uploadPhoto: UploadPhoto
     productAvailable: any
+    getMerchantProducts : GetMerchantProducts
+    getCategory: GetCategory
     ProductRepository: ProductRepository
-    constructor({createProduct, productRepository, getProduct , getProducts, uploadPhoto, updateProduct, deleteProduct,productAvailable}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
-        getProducts: GetProducts, uploadPhoto: UploadPhoto, productRepository: ProductRepository,productAvailable: any}) {
+    constructor({createProduct, productRepository, getProduct , getCategory, getProducts, uploadPhoto, updateProduct, deleteProduct,productAvailable,getMerchantProducts}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
+        getProducts: GetProducts, uploadPhoto: UploadPhoto,getCategory: GetCategory, getMerchantProducts : GetMerchantProducts, productRepository: ProductRepository,productAvailable: any}) {
         this.createProduct = createProduct
         this.getProduct = getProduct
         this.getProducts = getProducts
@@ -29,6 +33,8 @@ class ProductController {
         this.deleteProduct = deleteProduct
         this.uploadPhoto = uploadPhoto
         this.productAvailable = productAvailable
+        this.getMerchantProducts = getMerchantProducts
+        this.getCategory = getCategory
         this.ProductRepository = productRepository
 
     } 
@@ -65,6 +71,18 @@ class ProductController {
         }
     }
 
+    async getAllMerchantProduct(req: Request, res:Response ){
+        try{
+            const payload = req.query
+            const merchantId = req.user._id
+            const products = await this.getMerchantProducts.execute(payload, merchantId)
+            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Products successfully retrieved`, data: products })
+
+        }catch(error){
+
+        }
+    }
+
 
     async getAll(req: Request, res: Response) {
         try {
@@ -79,6 +97,8 @@ class ProductController {
             throw error
         }
     }
+
+
 
 
     async update(req: Request, res: Response) {
@@ -127,6 +147,24 @@ class ProductController {
         }
     }
 
+    async getByCategory(req:Request, res:Response) {
+        try{
+            const {category} = req.query
+            const products = await this.getCategory.execute(category)
+            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Below is your product information `, data : products })
+
+
+        }catch(error){
+            if (error instanceof Error ) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({success: false , msg:`${error.message}`})
+                throw new Error(`${error.message}`)
+            } 
+            throw error
+
+        }
+
+    }
+
     async upload(req: Request , res: Response) {
         try {
             const productId = req.user._id
@@ -144,13 +182,6 @@ class ProductController {
 
 }
 
-// for (const item of cart.items) {
-//     const { id } = item.product;
-//     const { totalProductQuantity } = item;
-//     const product = await Product.findById(id);
-//     const sold = product.sold + totalProductQuantity;
-//     const quantity = product.quantity - totalProductQuantity;
-//     await Product.findByIdAndUpdate(id, { sold, quantity });
-//   }
+
 
 export default ProductController

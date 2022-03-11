@@ -11,9 +11,9 @@ class DeleteWishlist{
         this.logger = logger
         
     }
-    async execute(wishlistId: string, customerId: string) {
+    async execute(productId: string, customerId: string) {
         try {
-            const wishlist = await this.wishlistRepository.remove(wishlistId, customerId)
+            const wishlist = await this.wishlistRepository.remove(productId, customerId)
             return wishlist
         } catch (error) {
             this.logger.error(error)

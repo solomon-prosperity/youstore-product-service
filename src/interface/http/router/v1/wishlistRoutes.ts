@@ -17,7 +17,7 @@ import express from "express";
       .get(verifyCustomer, api('get'))
 
   router
-      .route("/product/:wishlistId")
+      .route("/product/:productId")
       .delete(verifyCustomer, api('remove'))
 
   //router.get('/available', api('productAvailable'))

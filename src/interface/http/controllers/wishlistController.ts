@@ -68,9 +68,9 @@ class WishlistController {
 
     async remove(req: Request, res: Response) {
         try {
-            const { wishlistId } = req.params
+            const { productId } = req.params
             const customerId = req.user._id
-            const wishlist = await this.deleteWishlist.execute(wishlistId, customerId)
+            const wishlist = await this.deleteWishlist.execute(productId, customerId)
             if (!wishlist) return res.status(404).json({ success: false, msg: `Product with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`, data: wishlist })
         } catch (error) {

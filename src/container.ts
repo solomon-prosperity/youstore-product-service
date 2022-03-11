@@ -27,6 +27,8 @@ import UpdateWishlist from "./usecases/wishlist/updateWishlist"
 import DeleteWishlist from "./usecases/wishlist/deleteWishlist"
 import WishlistRepository from "./infra/repository/wishlistRepository"
 import UploadPhoto from "./usecases/products/uploadPhoto"
+import GetMerchantProducts from "./usecases/products/getMerchantProduct"
+import GetCategory from "./usecases/products/getCategory"
 //import Messenger from "./infra/libs/rabbitmq"
 
 
@@ -56,6 +58,7 @@ container.register({
     updateProduct: asClass(UpdateProduct),
     deleteProduct: asClass(DeleteProduct),
     productAvailable: asClass(ProductAvailable),
+    getMerchantProducts: asClass(GetMerchantProducts),
     productRepository: asClass(ProductRepository),
     createReview: asClass(CreateReview),
     getReview: asClass(GetReview),
@@ -68,7 +71,8 @@ container.register({
     getWishlist: asClass(GetWishlist),
     updateWishlist: asClass(UpdateWishlist),
     deleteWishlist: asClass(DeleteWishlist),
-    uploadPhoto: asClass(UploadPhoto)
+    uploadPhoto: asClass(UploadPhoto),
+    getCategory: asClass(GetCategory)
     //messenger: asClass(Messenger)
     
 

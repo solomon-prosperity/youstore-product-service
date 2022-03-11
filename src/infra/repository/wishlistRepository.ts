@@ -63,20 +63,20 @@ async update (wishlistId: string, payload: WishlistDocument) {
 }
 
 
-async remove (wishlistId: string, customerId: string) {
+async remove (productId: string, customerId: string) {
         try {
             const wishlist: any | null = await this.wishlistModel.find({customerId:customerId})
             if(!wishlist) {
                 throw new NotFoundError('No wishlist for this user' , 404, `error`)
             }
-            console.log(wishlist)
+
              
              wishlist.forEach((list: any) => {
                 const totalProducts = list.products.length
                 for(let i = 0; i < totalProducts; i++) {
-                    let productId = list.products[i]
-                    if (productId === wishlistId) {
-                        list.products.pop(wishlistId)
+                    let product = list.products[i]
+                    if (product === productId) {
+                        list.products.splice(i,1)
                         console.log(list)
                     } else {
                         console.log(`should not delete`)

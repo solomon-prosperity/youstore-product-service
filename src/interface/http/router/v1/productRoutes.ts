@@ -17,7 +17,12 @@ router
      .get(api('get'))
      .put(verifyMerchant,api('update'))
      .delete(verifyMerchant, api('delete'))
+     
+     
 
  router.post('/available', api('isProductAvailable'))
+ router.get('/category', api('getByCategory'))
+ router.get('/merchant-products', verifyMerchant, api('getAllMerchantProduct'))
+
 
  export default router;
