@@ -3,6 +3,7 @@ import { ReviewDocument } from "../database/models/mongoose/review";
 import log from "../../interface/http/utils/logger";
 import NotFoundError from "../../interface/http/errors/notFound"
 import ProductModel from "../database/models/mongoose/product";
+import { errorMonitor } from "events";
 
 class ReviewRepository {
     reviewModel: typeof ReviewModel
@@ -25,7 +26,7 @@ class ReviewRepository {
                 { new: true })
                 return saveReview
         } catch (error) {
-            this.logger.error(error);
+            throw error
         }
     }
 
@@ -37,7 +38,7 @@ async get (reviewId: String) {
             }
             return review
         } catch (error) {
-            this.logger.error(error);
+            throw error
             
         }
 }
@@ -49,7 +50,7 @@ async getAll (payload: Object) {
         const reviews = await this.reviewModel.find(payload)
         return reviews
     } catch (error) {
-        this.logger.error(error);
+        throw error
         
     }
 }
@@ -62,7 +63,7 @@ async update (reviewId: string, payload: ReviewDocument) {
         } )
         return review
     } catch (error) {
-        this.logger.error(error);
+        throw error
     }
 }
 
@@ -72,7 +73,7 @@ async delete (reviewId: string) {
             const review = await this.reviewModel.findByIdAndDelete(reviewId)
             return review
         } catch (error) {
-            this.logger.error(error);
+            throw error
             
         }
 }

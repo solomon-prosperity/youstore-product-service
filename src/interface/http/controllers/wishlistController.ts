@@ -48,7 +48,10 @@ class WishlistController {
             const wishlist = await this.getWishlist.execute(customerId)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `wishlist successfully retrieved`, data: wishlist })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                throw new Error(`${error.message}`)
+            }
+            throw error
         }
     }
 
@@ -61,7 +64,10 @@ class WishlistController {
             if (!wishlist) return res.status(400).json({ success: false, msg: `Product with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully updated`, data: wishlist })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                throw new Error(`${error.message}`)
+            }
+            throw error
         }
     }
 
@@ -74,7 +80,10 @@ class WishlistController {
             if (!wishlist) return res.status(404).json({ success: false, msg: `Product with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Product details successfully deleted`, data: wishlist })
         } catch (error) {
-            res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, data: error })
+            if (error instanceof Error) {
+                throw new Error(`${error.message}`)
+            }
+            throw error
         }
     }
 

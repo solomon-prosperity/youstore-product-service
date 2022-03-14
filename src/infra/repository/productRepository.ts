@@ -54,10 +54,10 @@ import { join } from "path/posix"
             
         }
     }
-    async getMerchantProduct (payload: Object, merchantId:string) {
+    async getMerchantProduct ( merchantId:string) {
         try {
             
-            const products = await this.productModel.find(payload, merchantId)
+            const products = await this.productModel.find({merchantId:merchantId})
             .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             return products
         } catch (error) {

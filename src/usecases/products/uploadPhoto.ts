@@ -19,20 +19,25 @@ class UploadPhoto{
         try {
             
             const uploader = async (path: String) => await cloudinary.uploads(path , 'youstore-product-photos')
-            const url = []
-            const file = payload
+            const urls = []
+            const files = payload
 
+        for (const file of files) {
             const {path} = file
             const newPath = await uploader(path)
 
 
-            url.push(newPath.url)
+            urls.push(newPath.url)
         
             fs.unlinkSync(path)
+        }
 
+            
             const product = await ProductModel.findById(productId)
 
-            product!.images = url.toString()
+            
+
+            product!.images = urls.toString()
 
             await product?.save()
 

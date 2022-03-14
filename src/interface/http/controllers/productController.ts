@@ -73,13 +73,17 @@ class ProductController {
 
     async getAllMerchantProduct(req: Request, res:Response ){
         try{
-            const payload = req.query
+
             const merchantId = req.user._id
-            const products = await this.getMerchantProducts.execute(payload, merchantId)
+            const products = await this.getMerchantProducts.execute( merchantId)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Products successfully retrieved`, data: products })
 
         }catch(error){
-
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
         }
     }
 
@@ -167,8 +171,8 @@ class ProductController {
 
     async upload(req: Request , res: Response) {
         try {
-            const productId = req.user._id
-            const payload = req.file
+            const {productId} = req.params
+            const payload = req.files 
             const product = await this.uploadPhoto.execute(payload, productId)
             res.status(200).json({success: true , msg:`Photo successfully uploaded`, data:  product})
         }catch (error){

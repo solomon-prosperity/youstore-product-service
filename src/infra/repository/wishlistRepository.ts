@@ -44,7 +44,7 @@ async get (customerId: String) {
             }
             return wishlist
         } catch (error) {
-            this.logger.error(error);
+            throw error
             
         }
 }
@@ -58,7 +58,7 @@ async update (wishlistId: string, payload: WishlistDocument) {
         } )
         return wishlist
     } catch (error) {
-        this.logger.error(error);
+        throw error
     }
 }
 
@@ -77,17 +77,15 @@ async remove (productId: string, customerId: string) {
                     let product = list.products[i]
                     if (product === productId) {
                         list.products.splice(i,1)
-                        console.log(list)
-                    } else {
-                        console.log(`should not delete`)
-                    }
+                        list.save()
+                    } 
                 }
              })
              
             
             return wishlist
         } catch (error) {
-            this.logger.error(error);
+            throw error
             
         }
 }
