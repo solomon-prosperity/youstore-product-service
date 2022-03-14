@@ -9,9 +9,9 @@ class GetCategory{
         this.logger = logger
     }
 
-    async execute( category: any) {
+    async execute( payload: any) {
         try {
-           const Products =  await this.productRepository.getCategory( category)
+           const Products =  await this.productRepository.getCategory( payload)
            return Products
         } catch (error) {
             throw error

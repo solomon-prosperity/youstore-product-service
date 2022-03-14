@@ -75,7 +75,8 @@ class ProductController {
         try{
 
             const merchantId = req.user._id
-            const products = await this.getMerchantProducts.execute( merchantId)
+            const payload = req.query
+            const products = await this.getMerchantProducts.execute( merchantId, payload)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Products successfully retrieved`, data: products })
 
         }catch(error){
@@ -153,8 +154,8 @@ class ProductController {
 
     async getByCategory(req:Request, res:Response) {
         try{
-            const {category} = req.query
-            const products = await this.getCategory.execute(category)
+            const payload = req.query
+            const products = await this.getCategory.execute(payload)
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Below is your product information `, data : products })
 
 

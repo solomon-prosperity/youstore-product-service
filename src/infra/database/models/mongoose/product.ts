@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
+mongoosePaginate.paginate.options = {
+  limit: 20,
+  useEstimatedCount: false,
+  customLabels: {
+    totalDocs: "totalDocs",
+    docs: "docs",
+    limit: "perPage",
+    page: "currentPage",
+    nextPage: "nextPage",
+    prevPage: "prevPage",
+    totalPages: "totalPages",
+    pagingCounter: "serialNo",
+    meta: "pagination",
+  },
+};
 
 export interface Product {
   name: string;
@@ -76,6 +92,8 @@ const productSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+productSchema.plugin(mongoosePaginate);
 
 const ProductModel = mongoose.model<ProductDocument>("Product", productSchema);
 

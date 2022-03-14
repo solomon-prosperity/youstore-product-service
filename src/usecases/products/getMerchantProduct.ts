@@ -9,9 +9,9 @@ class GetMercahntProducts{
         this.logger = logger
     }
 
-    async execute( merchantId: string) {
+    async execute( merchantId: string, payload: any) {
         try {
-           const Products =  await this.productRepository.getMerchantProduct( merchantId)
+           const Products =  await this.productRepository.getMerchantProduct( merchantId, payload)
            return Products
         } catch (error) {
             throw error

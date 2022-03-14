@@ -1868,6 +1868,11 @@ mongoose-beautiful-unique-validation@^7.1.1:
   resolved "https://registry.yarnpkg.com/mongoose-beautiful-unique-validation/-/mongoose-beautiful-unique-validation-7.1.1.tgz#50eaf88e395f9b194cd29ad76913cd9ebd515653"
   integrity sha512-fprzp8nY9Qjg0+RZFMl7gVmbINRt2H53fpqyjJWwPO7nxJ9RZZB/Lo3y+mXaMP4nNMOeoJb2v3dNou6h+iLh8w==
 
+mongoose-paginate-v2@^1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/mongoose-paginate-v2/-/mongoose-paginate-v2-1.6.3.tgz#50a96752b84a9456fef850b4207cc8b3867e98ac"
+  integrity sha512-wxIOcZL7V3+yHIkdTcDk+MtPxjDacEmrZ/4NpwgvOmmEm9SWWsBKRyPd/EmHlRUzk3ylr7fy4QEje1VMg0qpZA==
+
 mongoose@^6.1.7:
   version "6.2.4"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.2.4.tgz#c6ff4f84ab47b6c760e773424b0fd1f392d98563"
