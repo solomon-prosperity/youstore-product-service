@@ -33,13 +33,14 @@ class UploadPhoto{
         }
 
             
-            const product = await ProductModel.findById(productId)
+            const product = await ProductModel.findOne({productId: productId})
 
             
 
             product!.images = urls.toString()
 
             await product?.save()
+            console.log(product)
 
             return product
           

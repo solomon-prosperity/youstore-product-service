@@ -17,7 +17,11 @@ class WishlistRepository {
 
     async create(payload: WishlistDocument, customerId: string) {
         try {
+            const {products} = payload
             const customerHasWishlist: any | null = await this.wishlistModel.findOne({customerId: customerId})
+            customerHasWishlist.products.map((product: any) => {
+                if (product == products) throw new Error ('Product already in wishlist')
+            })
             if (!customerHasWishlist) {
                 const wishlist = await this.wishlistModel.create(payload);
                 wishlist.customerId = customerId
