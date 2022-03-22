@@ -3,12 +3,13 @@ import ProductModel from "../../infra/database/models/mongoose/product"
 import log from "../../interface/http/utils/logger"
 const cloudinary = require('../../infra/libs/cloudinary')
 const fs = require('fs')
+import { ProductDocument } from "../../infra/database/models/mongoose/product"
 
 
 class UploadPhoto{
     productRepository: ProductRepository
     logger: typeof log
-    productModel: typeof ProductModel
+    productModel: any //typeof ProductModel
     constructor({productRepository, logger, productModel}: {productRepository: ProductRepository, productModel: typeof ProductModel, logger: typeof log}) {
         this.productRepository = productRepository
         this.logger = logger
@@ -19,8 +20,9 @@ class UploadPhoto{
         try {
             
             const uploader = async (path: String) => await cloudinary.uploads(path , 'youstore-product-photos')
-            const urls = []
+            const urls: any = []
             const files = payload
+            
 
         for (const file of files) {
             const {path} = file
@@ -30,20 +32,19 @@ class UploadPhoto{
             urls.push(newPath.url)
         
             fs.unlinkSync(path)
+        
         }
 
-            
-            const product = await ProductModel.findOne({productId: productId})
+            const product: any | null  = await this.productModel.findOne({productId: productId})
 
-            
+            product.images = urls
 
-            product!.images = urls.toString()
 
-            await product?.save()
-            console.log(product)
+            product.save()
+
 
             return product
-          
+
         } catch (error) {
             throw error
         }

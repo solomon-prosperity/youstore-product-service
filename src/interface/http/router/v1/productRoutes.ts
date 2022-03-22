@@ -21,7 +21,7 @@ router
      
 
  router.post('/available', api('isProductAvailable'))
- router.post('/:productId/upload', upload.array('images', 4), api('upload') )
+ router.post('/:productId/upload',verifyMerchant, upload.array('images', 4), api('upload') )
  router.get('/category', api('getByCategory'))
  router.get('/merchant-products', verifyMerchant, api('getAllMerchantProduct'))
 

@@ -4,7 +4,7 @@ import database from "./infra/database/mongoose"
 import router from "./interface/http/router/routes"
 import restServer from "./interface/http/server"
 import Logger from "./interface/http/utils/logger"
-import productModel from "./infra/database/models/mongoose/product"
+import ProductModel from "./infra/database/models/mongoose/product"
 import reviewModel from "./infra/database/models/mongoose/review"
 import WishlistModel from "./infra/database/models/mongoose/wishlist"
 import config from "config"
@@ -48,7 +48,7 @@ container.register({
     restServer: asClass(restServer),
     router: asFunction(router),
     logger: asValue(Logger),
-    productModel: asValue(productModel),
+    productModel: asValue(ProductModel),
     reviewModel: asValue(reviewModel),
     wishlistModel: asValue(WishlistModel),
     config: asValue(config),

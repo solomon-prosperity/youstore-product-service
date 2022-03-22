@@ -24,7 +24,7 @@ export interface Product {
   color: string;
   size: string;
   category: string;
-  images: string;
+  images: object;
   reviews: object;
   quantity:number;
   sold:number;
@@ -49,7 +49,7 @@ const productSchema = new mongoose.Schema(
       required: true
     },
     images: {
-      type: String,
+      type: Array,
     },
     category: {
       type: String,
