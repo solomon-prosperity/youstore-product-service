@@ -10,6 +10,7 @@ import UpdateProduct from "../../../usecases/products/updateProduct";
 import UploadPhoto from "../../../usecases/products/uploadPhoto";
 import GetMerchantProducts from "../../../usecases/products/getMerchantProduct";
 import GetCategory from "../../../usecases/products/getCategory";
+import SearchProduct from "../../../usecases/products/searchProduct";
 
 //import ProductAvailable from "../../../usecases/products/productavailable";
 
@@ -23,9 +24,10 @@ class ProductController {
     productAvailable: any
     getMerchantProducts : GetMerchantProducts
     getCategory: GetCategory
+    searchProduct: SearchProduct
     ProductRepository: ProductRepository
-    constructor({createProduct, productRepository, getProduct , getCategory, getProducts, uploadPhoto, updateProduct, deleteProduct,productAvailable,getMerchantProducts}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
-        getProducts: GetProducts, uploadPhoto: UploadPhoto,getCategory: GetCategory, getMerchantProducts : GetMerchantProducts, productRepository: ProductRepository,productAvailable: any}) {
+    constructor({createProduct, productRepository, getProduct , getCategory, getProducts, uploadPhoto, updateProduct, deleteProduct,productAvailable,searchProduct, getMerchantProducts}: {createProduct: CreateProduct, getProduct: GetProduct, updateProduct: UpdateProduct, deleteProduct: DeleteProduct
+        getProducts: GetProducts, uploadPhoto: UploadPhoto,getCategory: GetCategory, searchProduct: SearchProduct,getMerchantProducts : GetMerchantProducts, productRepository: ProductRepository,productAvailable: any}) {
         this.createProduct = createProduct
         this.getProduct = getProduct
         this.getProducts = getProducts
@@ -35,6 +37,7 @@ class ProductController {
         this.productAvailable = productAvailable
         this.getMerchantProducts = getMerchantProducts
         this.getCategory = getCategory
+        this.searchProduct = searchProduct
         this.ProductRepository = productRepository
 
     } 
@@ -176,6 +179,20 @@ class ProductController {
             const payload = req.files 
             const product = await this.uploadPhoto.execute(payload, productId)
             res.status(200).json({success: true , msg:`Photo successfully uploaded`, data:  product})
+        }catch (error){
+            if (error instanceof Error ) {
+                res.status(HTTP_STATUS.BAD_REQUEST).json({success: false , msg:`${error.message}`})
+                throw new Error(`${error.message}`)
+            } 
+            throw error
+        }
+    }
+    async search(req: Request, res: Response) {
+        try{
+            const payload = req.query
+            const products = await this.searchProduct.execute(payload)
+            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Below is your product information `, data : products })
+
         }catch (error){
             if (error instanceof Error ) {
                 res.status(HTTP_STATUS.BAD_REQUEST).json({success: false , msg:`${error.message}`})
