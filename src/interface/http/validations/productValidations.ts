@@ -7,6 +7,11 @@ export const createProductSchema = (product: ProductDocument) => {
     description: Joi.string().required(),
     price: Joi.string().required(),
     color: Joi.string().required(),
+    size : Joi.string().required(),
+    category: Joi.string().required(),
+    images: Joi.object(),
+    reviews: Joi.object(),
+    quantity: Joi.number().required()
   }).unknown();
           return schema.validate(product);
   }
