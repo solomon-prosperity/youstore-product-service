@@ -15,7 +15,7 @@ class ReviewController {
     deleteReview: DeleteReview
     updateReview: UpdateReview
     ReviewRepository: ReviewRepository
-    constructor({createReview, reviewRepository, getReview , getReviews, updateReview, deleteReview}: {createReview: CreateReview, getReview: GetReview, updateReview: UpdateReview, deleteReview: DeleteReview
+    constructor({createReview, reviewRepository, getReview , getReviews, updateReview,deleteReview}: {createReview: CreateReview, getReview: GetReview, updateReview: UpdateReview, deleteReview: DeleteReview
         getReviews: GetReviews, reviewRepository: ReviewRepository}) {
         this.createReview = createReview
         this.getReview = getReview
@@ -102,6 +102,7 @@ class ReviewController {
             }
         }
     }
+
 
 }
 

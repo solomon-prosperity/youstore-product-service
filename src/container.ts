@@ -73,6 +73,7 @@ container.register({
     deleteWishlist: asClass(DeleteWishlist),
     uploadPhoto: asClass(UploadPhoto),
     getCategory: asClass(GetCategory)
+    
     //messenger: asClass(Messenger)
     
 

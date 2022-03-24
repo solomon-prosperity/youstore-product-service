@@ -16,7 +16,9 @@ import express from "express";
   router
       .route("/:reviewId")
       .get(api('get'))
+
       .put(verifyCustomer, api('update'))
       .delete(verifyCustomer, api('delete'))
+
 
   export default router;

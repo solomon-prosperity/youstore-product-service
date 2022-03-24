@@ -45,7 +45,7 @@ class ProductAvailable{
                     })
             
             }
-             return {availableProducts,unavailableProducts }
+             return {availableProducts,unavailableProducts}
         
         } catch (error) {
             throw error

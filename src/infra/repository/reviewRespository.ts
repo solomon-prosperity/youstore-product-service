@@ -7,7 +7,7 @@ import { errorMonitor } from "events";
 
 class ReviewRepository {
     reviewModel: typeof ReviewModel
-    productModel: typeof ProductModel
+    productModel: any
     logger: typeof log 
     constructor({reviewModel , productModel, logger}: {reviewModel: typeof ReviewModel,productModel: typeof ProductModel, logger: typeof log}){
         this.reviewModel = reviewModel
@@ -30,6 +30,7 @@ class ReviewRepository {
         }
     }
 
+
 async get (reviewId: String) {
         try {
             const review = await this.reviewModel.findById(reviewId)
@@ -41,6 +42,24 @@ async get (reviewId: String) {
             throw error
             
         }
+}
+async getCustomerReview ( payload: any ){
+    try{
+        const { page = 1, limit = 20, customerName} = payload
+
+        const review = await this.productModel.paginate({customerName:customerName}, {
+            page,
+            limit,
+            populate: {path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']}
+          })
+        if(!review) {
+            throw new NotFoundError('Customer does not exist' , 404, `error`)}
+        return review
+    }catch(error){
+        throw error
+
+    }
+
 }
 
 

@@ -35,7 +35,8 @@ class UploadPhoto{
         
         }
 
-            const product: any | null  = await this.productModel.findOne({productId: productId})
+            const product: any | null  = await this.productModel.findById(productId)
+            console.log(product)
 
             product.images = urls
 

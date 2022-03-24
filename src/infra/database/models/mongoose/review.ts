@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2"
 
+mongoosePaginate.paginate.options = {
+  limit: 20,
+  useEstimatedCount: false,
+  customLabels: {
+    totalDocs: "totalDocs",
+    docs: "docs",
+    limit: "perPage",
+    page: "currentPage",
+    nextPage: "nextPage",
+    prevPage: "prevPage",
+    totalPages: "totalPages",
+    pagingCounter: "serialNo",
+    meta: "pagination",
+  },
+};
 
 export interface Review {
   comment: string;
@@ -37,6 +53,7 @@ const reviewSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+reviewSchema.plugin(mongoosePaginate);
 
 const ReviewModel = mongoose.model<ReviewDocument>("Review", reviewSchema);
 

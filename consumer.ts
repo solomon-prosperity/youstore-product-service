@@ -41,12 +41,13 @@ const channelWrapper = connection.createChannel({
     channel.consume(`customer_deleted`, async (messageBuffer: Message | null) => {
       const msg = messageBuffer;
       const message = JSON.parse(msg!.content.toString());
-      const customerId = message.customer._id
+      const customerId = message
       const customer = await WishlistModel.findOneAndDelete({customerId: customerId})
       if(!customer) {
         console.log(`The Deleted Customer account does not have a wishlist`)
+      }else{
+        console.log(`Wishlist removed for customer with ID: ${customerId}`)
       }
-      console.log(`Wishlist removed for customer with ID: ${customerId}`)
       
 
     }, {noAck: true})
@@ -54,12 +55,15 @@ const channelWrapper = connection.createChannel({
     channel.consume(`merchant_deleted`, async (messageBuffer: Message | null) => {
       const msg = messageBuffer;
       const message = JSON.parse(msg!.content.toString());
-      const merchantId = message.merchant._id
+      const merchantId = message
       const merchant = await ProductModel.findOneAndDelete({merchantId: merchantId})
       if(!merchant) {
         console.log(`The Deleted Merchant account does not have Products`)
+      }else{
+        console.log(`Wishlist removed for merchant with ID: ${merchantId}`)
+
       }
-      console.log(`Wishlist removed for merchant with ID: ${merchantId}`)
+      
       
 
     }, {noAck: true})

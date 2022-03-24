@@ -45,27 +45,22 @@ import { join } from "path/posix"
 
     async getAll (payload: any) {
         try { 
-            const { page = 1, limit = 20} = payload
-            const filter = {}
-            const products  = await this.productModel.paginate(filter, {
-                page,
-                limit,
-                populate: {path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']}
-              })
+            const {page = 1 , limit = 10 } = payload; 
+            const products  = await this.productModel.find().limit(limit * 1).skip((page - 1) * limit)
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             return products
         } catch (error) {
             throw error
-            
+           
         }
+
     }
+    
     async getMerchantProduct ( merchantId:string, payload: any) {
         try {
-            const { page = 1, limit = 20} = payload
-            const products = await this.productModel.paginate({merchantId:merchantId}, {
-                page,
-                limit,
-                populate: {path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']}
-              })
+            const { page = 1, limit = 10} = payload
+            const products = await this.productModel.find().limit(limit * 1).skip((page - 1) * limit)
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             
             return products
         } catch (error) {
@@ -85,15 +80,13 @@ import { join } from "path/posix"
             throw error
         }
     }
+    
     async getCategory ( payload: any ){
         try{
-            const { page = 1, limit = 20, category} = payload
+            const { page = 1, limit = 10, category} = payload
 
-            const product = await this.productModel.paginate({category:category}, {
-                page,
-                limit,
-                populate: {path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']}
-              })
+            const product = await this.productModel.find({category:category}).limit(limit * 1).skip((page - 1) * limit)
+            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             if(!product) {
                 throw new NotFoundError('Product with this ID does not exist' , 404, `error`)}
             return product
