@@ -76,15 +76,14 @@ const channelWrapper = connection.createChannel({
       message.order.products.map(async (item: any)=> {
           const productId = item.id
           const orderQty = item.quantity
-          const product = await ProductModel.findOne({_Id: productId})
+          const product = await ProductModel.findOne({_id: productId})
           const newQty = product!.quantity + orderQty
           product!.quantity = newQty
           product!.sold = product!.sold - orderQty
           product!.save()
+          console.log(`Products reinstated for failed order with ID: ${orderId}`)
           
       })
-
-      console.log(`Products reinstated for failed order with ID: ${orderId}`)
 
     }, {noAck: true})
 
