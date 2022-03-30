@@ -44,6 +44,8 @@ class WishlistRepository {
 async get (customerId: String) {
         try {
             const wishlist = await this.wishlistModel.find({customerId:customerId})
+            .populate({path: "products" , select: ['name' ,'description','price', 'color', 'size', 'category','images', 'reviews', 'quantity']});
+ 
             if(!wishlist) {
                 throw new NotFoundError('No wishlist for this user' , 404, `error`)
             }
