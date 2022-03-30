@@ -59,7 +59,7 @@ import { join } from "path/posix"
     async getMerchantProduct ( merchantId:string, payload: any) {
         try {
             const { page = 1, limit = 10} = payload
-            const products = await this.productModel.find().limit(limit * 1).skip((page - 1) * limit)
+            const products = await this.productModel.find({merchantId:merchantId}).limit(limit * 1).skip((page - 1) * limit)
             .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             
             return products
