@@ -19,9 +19,7 @@ class WishlistRepository {
         try {
             const {products} = payload
             const customerHasWishlist: any | null = await this.wishlistModel.findOne({customerId: customerId})
-            customerHasWishlist.products.map((product: any) => {
-                if (product == products) throw new Error ('Product already in wishlist')
-            })
+            
             if (!customerHasWishlist) {
                 const wishlist = await this.wishlistModel.create(payload);
                 wishlist.customerId = customerId
@@ -30,6 +28,9 @@ class WishlistRepository {
 
               
             } else {
+                customerHasWishlist.products.map((product: any) => {
+                    if (product == products) throw new Error ('Product already in wishlist')
+                })
                 const newone =   await this.wishlistModel.findOneAndUpdate({customerId: customerId}, { $push: payload },
                     { new: true })
                     return newone
