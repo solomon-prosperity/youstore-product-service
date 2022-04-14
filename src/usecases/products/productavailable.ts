@@ -56,5 +56,5 @@ class ProductAvailable{
 }
 
 
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 export default ProductAvailable

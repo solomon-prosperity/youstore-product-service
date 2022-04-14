@@ -11,9 +11,9 @@ class GetReview{
         this.logger = logger
     }
 
-    async execute(reviewId: string) {
+    async execute(reviewId: string, customerName: string) {
         try {
-            const review = await this.reviewRepository.get(reviewId)
+            const review = await this.reviewRepository.get(reviewId, customerName)
             return review
         } catch (error) {
             throw error

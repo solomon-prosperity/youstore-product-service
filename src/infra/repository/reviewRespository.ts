@@ -31,7 +31,7 @@ class ReviewRepository {
     }
 
 
-async get (reviewId: String) {
+async get (reviewId: String, customerName: string) {
         try {
             const review = await this.reviewModel.findById(reviewId)
             if(!review) {
