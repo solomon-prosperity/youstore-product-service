@@ -47,7 +47,7 @@ import { join } from "path/posix"
         try { 
             const {page = 1 , limit = 10 } = payload; 
             const products  = await this.productModel.find().limit(limit * 1).skip((page - 1) * limit)
-            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            .populate({path: "reviews" , select: ['customerName' , 'customerAvatar','comment', 'rating', 'createdAt', 'updatedAt']});
             return products
         } catch (error) {
             throw error
@@ -60,7 +60,7 @@ import { join } from "path/posix"
         try {
             const { page = 1, limit = 10} = payload
             const products = await this.productModel.find({merchantId:merchantId}).limit(limit * 1).skip((page - 1) * limit)
-            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            .populate({path: "reviews" , select: ['customerName' , 'customerAvatar','comment', 'rating', 'createdAt', 'updatedAt']});
             
             return products
         } catch (error) {
@@ -86,7 +86,7 @@ import { join } from "path/posix"
             const { page = 1, limit = 10, category} = payload
 
             const product = await this.productModel.find({category:category}).limit(limit * 1).skip((page - 1) * limit)
-            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            .populate({path: "reviews" , select: ['customerName' , 'customerAvatar','comment', 'rating', 'createdAt', 'updatedAt']});
             if(!product) {
                 throw new NotFoundError('Product with this ID does not exist' , 404, `error`)}
             return product
@@ -113,7 +113,7 @@ import { join } from "path/posix"
         try{
             const { page = 1, limit = 10, name } = payload
             let product = await this.productModel.find({name: {$regex: new RegExp('^'+ name +'.*', 'i')}}).limit(limit * 1).skip((page - 1) * limit)
-            .populate({path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']});
+            .populate({path: "reviews" , select: ['customerName','customerAvatar' , 'comment', 'rating', 'createdAt', 'updatedAt']});
             product = product.slice(0, 10);
             if (product.length < 1) {
                 throw new NotFoundError('No product matched your search' , 404, `error`)

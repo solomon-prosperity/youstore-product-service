@@ -47,9 +47,7 @@ class ReviewController {
     async get(req: Request, res: Response) {
         try {
             const { reviewId } = req.params
-            const fullName = req.user.firstName + ' ' + req.user.lastName
-            const customerName = fullName
-            const review = await this.getReview.execute(reviewId, customerName)
+            const review = await this.getReview.execute(reviewId)
             if (!review) return res.status(400).json({ success: false, msg: `Review with this ID not found` })
             res.status(HTTP_STATUS.OK).json({ success: true, msg: `Review details successfully retrieved`, data: review })
         } catch (error) {
