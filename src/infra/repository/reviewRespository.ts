@@ -50,7 +50,7 @@ async getCustomerReview ( payload: any ){
         const review = await this.productModel.paginate({customerName:customerName}, {
             page,
             limit,
-            populate: {path: "reviews" , select: ['name' , 'comment', 'rating', 'createdAt', 'updatedAt']}
+            populate: {path: "reviews" , select: ['customerName' ,'customerAvatar' , 'comment', 'rating', 'createdAt', 'updatedAt']}
           })
         if(!review) {
             throw new NotFoundError('Customer does not exist' , 404, `error`)}
