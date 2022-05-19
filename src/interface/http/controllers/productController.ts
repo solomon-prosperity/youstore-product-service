@@ -91,6 +91,23 @@ class ProductController {
         }
     }
 
+    async fetchAllMerchantProduct(req: Request, res:Response ){
+        try{
+
+            const {merchantId} = req.params
+            const payload = req.query
+            const products = await this.getMerchantProducts.execute( merchantId, payload)
+            res.status(HTTP_STATUS.OK).json({ success: true, msg: `Products successfully retrieved`, data: products })
+
+        }catch(error){
+            if (error instanceof Error) {
+                res.status(HTTP_STATUS.FORBIDDEN).json({ success: false, msg: `${error.message}` })
+                throw error
+            }
+            throw error
+        }
+    }
+
 
     async getAll(req: Request, res: Response) {
         try {
