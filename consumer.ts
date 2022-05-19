@@ -18,6 +18,7 @@ const {
 
 // Create a connection manager
 const amqp_url = process.env.AMQP_URL || "";
+console.log(amqp_url)
 logger.info("Connecting to RabbitMq...");
 const connection = amqp.connect(amqp_url);
 
@@ -31,9 +32,13 @@ const channelWrapper = connection.createChannel({
     json: true,
   setup(channel: Channel) {
 
+    //Assert Exchange and Bind Queue
+    channel.assertExchange('orderEvents', 'topic')
+    channel.bindQueue('order_unsuccessful', 'orderEvents', 'orders.status.failed')
+
     channel.assertQueue(`customer_deleted`, { durable: true })
     channel.assertQueue(`merchant_deleted`, { durable: true })
-    channel.assertQueue(`order_failed`, { durable: false })
+    channel.assertQueue(`order_unsuccessful`, { durable: true })
       
 
     //consume messages
@@ -68,9 +73,13 @@ const channelWrapper = connection.createChannel({
 
     }, {noAck: true})
 
-    channel.consume(`order_failed`, async (messageBuffer: Message | null) => {
+    channel.consume(`order_unsuccessful`, async (messageBuffer: Message | null) => {
       const msg = messageBuffer;
       const message = JSON.parse(msg!.content.toString());
+
+      const routingKey = msg?.fields.routingKey
+      if (routingKey !== 'orders.status.failed') return
+
       let orderId = message.order.orderId
 
       message.order.products.map(async (item: any)=> {

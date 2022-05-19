@@ -11,9 +11,9 @@ class GetProduct{
         this.logger = logger
     }
 
-    async execute(customerId: string) {
+    async execute(productId: string) {
         try {
-            const product = await this.productRepository.get(customerId)
+            const product = await this.productRepository.get(productId)
             return product
         } catch (error) {
             throw error
